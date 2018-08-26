@@ -35,6 +35,7 @@ exports.getLyrics = (title, author) => {
         axios.get(URI)
 		.then(res => {
             const $ = cheerio.load(res.data)
+            console.log($)
             if($('.alert.alert-warning').length > 0){
                 return resolve('no result found')
             }
