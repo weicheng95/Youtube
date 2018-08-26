@@ -41,6 +41,7 @@ const getLyricLink = (URI) => {
             .then(res => {
                 if(res.status === 200){
                     const $ = cheerio.load(res.data)
+                    console.log('getlyriclink')
                     return $('td.text-left a').first().attr('href')
                 }
             })
@@ -76,11 +77,11 @@ exports.getLyrics = (title, author) => {
             .then((link) => {
                 axios.get(link)
                     .then((res) => {
+                        console.log('extract lyric')
                         if (res.status === 200) {
                             const $ = cheerio.load(res.data)
                             $('.col-xs-12.col-lg-8.text-center').each(function () {
                                 let lyrics = $(this).html().split('Submit Corrections')[0]
-                                res.end()
                                 return resolve(lyrics)
                             })
                         }
