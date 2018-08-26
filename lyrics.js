@@ -80,6 +80,7 @@ exports.getLyrics = (title, author) => {
                             const $ = cheerio.load(res.data)
                             $('.col-xs-12.col-lg-8.text-center').each(function () {
                                 let lyrics = $(this).html().split('Submit Corrections')[0]
+                                res.end()
                                 return resolve(lyrics)
                             })
                         }

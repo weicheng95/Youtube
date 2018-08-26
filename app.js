@@ -35,6 +35,7 @@ app.post('/getlyrics', function(req, res) {
     lyrics.getLyrics(title, author)
     .then((lyric) => {
         return res.send(lyric)
+        res.end()
     })
     .catch((err) => {
         console.log(err)
