@@ -44,7 +44,8 @@ exports.getLyrics = (title, author) => {
                 //test
                 console.log(url)
                 // Get Lyrics
-                axios.get(url).then(res => {
+                axios.get(url)
+                .then(res => {
                     console.log(res.status)
                     if(res.status === 200) {
                         const $ = cheerio.load(res.data)
@@ -53,7 +54,8 @@ exports.getLyrics = (title, author) => {
                             return resolve(lyrics)
                         })
                     }
-                }).catch(err => reject('url problem!!!'))
+                })
+
                 return false;
             });
 		})
