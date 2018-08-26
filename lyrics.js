@@ -41,6 +41,8 @@ exports.getLyrics = (title, author) => {
             }
             $('td.text-left a').each(function(){
                 url = $(this).attr('href');
+                //test
+                console.log(url)
                 // Get Lyrics
                 axios.get(url).then(res => {
                     console.log(res.status)
