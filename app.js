@@ -5,16 +5,12 @@ const axios = require('axios')
 const fs = require('fs');
 const lyrics = require('./lyrics')
 const bodyParser = require('body-parser');
+const timeout = require('connect-timeout')
 
-// lyrics.getLyrics('something just like this', 'chainsmokers')
-// .then((lyric) => {
-//     console.log('from outside:')
-//     console.log(lyric)
-//     lyricsFromAz = lyric
-// })
-// .catch((err) => {
-//     console.log(err)
-// })
+//setting
+app.use(timeout('10s'))
+app.use(haltOnTimedout)
+app.use(bodyParser())
 
 //view engine
 app.set('view engine', 'ejs')
@@ -22,7 +18,7 @@ app.set('view engine', 'ejs')
 //import public
 app.use(express.static('static'))
 
-app.use(bodyParser())
+
 
 app.get('/', function (req, res) {
     res.render('index')
