@@ -75,6 +75,7 @@ exports.getLyrics = (title, author) => {
 
         const lyricLink = getLyricLink(URI)
             .then((link) => {
+                console.log({link})
                 axios.get(link)
                     .then((res) => {
                         console.log('extract lyric')
