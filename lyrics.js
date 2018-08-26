@@ -29,26 +29,12 @@ const lyricsUrl = (title,author) => {
 	return returnUrl;
 }
 
-// const lyrics = (url) => {
-//     axios.get(url).then(res => {
-//         if(res.status === 200) {
-//             const $ = cheerio.load(res.data)
-//             $('.col-xs-12.col-lg-8.text-center').each(function(){
-//                 let lyrics = h2p($(this).html()).split('Submit Corrections')[0]
-//                 console.log(lyrics)
-//                 return lyrics
-//             })
-//         }
-//     })
-// }
-
 exports.getLyrics = (title, author) => {
 	return new Promise((resolve, reject) => {
         const URI = lyricsUrl(title, author);
         axios.get(URI)
 		.then(res => {
             const $ = cheerio.load(res.data)
-            console.log($)
             if($('.alert.alert-warning').length > 0){
                 return resolve('no result found')
             }
@@ -60,11 +46,10 @@ exports.getLyrics = (title, author) => {
                         const $ = cheerio.load(res.data)
                         $('.col-xs-12.col-lg-8.text-center').each(function(){
                             let lyrics = $(this).html().split('Submit Corrections')[0]
-                            console.log(lyrics)
                             return resolve(lyrics)
                         })
                     }
-                })
+                }).catch(err => reject('url problem!!!'))
                 return false;
             });
 		})

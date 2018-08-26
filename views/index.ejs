@@ -37,13 +37,6 @@
           <p id="lyric-text"></p>
       </div>
     </div>
-
-    <!-- <div id="timeline">
-    </div> -->
-<!--    
-    <div class="row row-lyric">
-      <p id="lyric-text"></p>
-    </div> -->
   </div>
   </div>
 
@@ -153,7 +146,6 @@
         contentType : "application/json",
 			  data : JSON.stringify({title: title, author: author}),
         success: function(result) {
-          console.log(result)
           lyricText.html(result)
           //hide something
           $('.div-share').remove()

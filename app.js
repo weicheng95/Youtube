@@ -29,7 +29,6 @@ app.get('/', function (req, res) {
 })
 
 app.post('/getlyrics', function(req, res) {
-    console.log(req.body)
     var title = req.body.title
     var author = req.body.author
 
