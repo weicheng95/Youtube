@@ -12,6 +12,10 @@ app.use(timeout('10s'))
 app.use(haltOnTimedout)
 app.use(bodyParser())
 
+function haltOnTimedout (req, res, next) {
+    if (!req.timedout) next()
+  }
+  
 //view engine
 app.set('view engine', 'ejs')
 
