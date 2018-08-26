@@ -42,6 +42,7 @@ exports.getLyrics = (title, author) => {
                 url = $(this).attr('href');
                 // Get Lyrics
                 axios.get(url).then(res => {
+                    console.log(res.status)
                     if(res.status === 200) {
                         const $ = cheerio.load(res.data)
                         $('.col-xs-12.col-lg-8.text-center').each(function(){
