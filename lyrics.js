@@ -55,7 +55,7 @@ exports.getLyrics = (title, author) => {
                         })
                     }
                 })
-                .catch(err => reject('url problem!!!'));
+                .catch(err => reject(err));
                 
                 return false;
             });
