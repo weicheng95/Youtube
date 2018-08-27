@@ -15,7 +15,7 @@ app.use(bodyParser())
 function haltOnTimedout (req, res, next) {
     if (!req.timedout) next()
   }
-  
+
 //view engine
 app.set('view engine', 'ejs')
 
@@ -32,10 +32,13 @@ app.post('/getlyrics', function(req, res) {
     var title = req.body.title
     var author = req.body.author
 
-    lyrics.getLyrics(title, author)
-    .then((lyric) => {
-        return res.send(lyric)
-        res.end()
+    lyrics.getLyricsLink(title, author)
+    .then((link) => {
+        lyrics.getLyrics(link)
+        .then((lyric) => {
+            return res.send(lyric)
+            res.end()
+        })
     })
     .catch((err) => {
         console.log(err)
