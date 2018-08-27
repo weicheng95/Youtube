@@ -75,21 +75,22 @@ exports.getLyrics = (title, author) => {
 
         const lyricLink = getLyricLink(URI)
             .then((link) => {
-                console.log({link})
-                axios.get(link)
-                    .then((res) => {
-                        console.log('extract lyric')
-                        if (res.status === 200) {
-                            const $ = cheerio.load(res.data)
-                            $('.col-xs-12.col-lg-8.text-center').each(function () {
-                                let lyrics = $(this).html().split('Submit Corrections')[0]
-                                return resolve(lyrics)
-                            })
-                        }
-                    })
-                    .catch(err => {
-                        console.log(err)
-                    })
+                // console.log({link})
+                // axios.get(link)
+                //     .then((res) => {
+                //         console.log('extract lyric')
+                //         if (res.status === 200) {
+                //             const $ = cheerio.load(res.data)
+                //             $('.col-xs-12.col-lg-8.text-center').each(function () {
+                //                 let lyrics = $(this).html().split('Submit Corrections')[0]
+                //                 return resolve(lyrics)
+                //             })
+                //         }
+                //     })
+                //     .catch(err => {
+                //         console.log(err)
+                //     })
+                resolve(link)
             })
             .catch(err => reject(`You're doing it wrong!\nServer responded with status ${err.statusCode === 404 ? err.statusCode + ' not found!' : err.statusCode}\n\nFormat: Artist - Song.\nAdditional hyphens in the title should be omitted`));
         
