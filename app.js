@@ -39,6 +39,9 @@ app.post('/getlyrics', function(req, res) {
             return res.send(lyric)
             res.end()
         })
+        .catch((err) => {
+            console.log(err)
+        })
     })
     .catch((err) => {
         console.log(err)
