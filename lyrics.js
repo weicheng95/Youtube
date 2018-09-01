@@ -3,11 +3,6 @@ const cheerio = require('cheerio');
 const searchLyricsBase = 'https://search.azlyrics.com/search.php';
 const lyricsBase = 'https://azlyrics.com/';
 const h2p = require('html2plaintext')
-// const transformMsg = msg => {
-//     const arr = msg.split(/\s*\-\s*/g);
-//     if(arr.length !== 2) return false;
-//     return arr;
-// }
 
 const transformLink = data => {
     data = data.split(' ', ).join('+');
@@ -108,7 +103,7 @@ exports.getLyrics = (link) => {
         .then((ly) => {
             resolve(ly)
         })
-        .catch(err => reject(`You're doing it wrong!\nServer responded with status ${err.statusCode === 404 ? err.statusCode + ' not found!' : err.statusCode}\n\nFormat: Artist - Song.\nAdditional hyphens in the title should be omitted`));
+        .catch(err => reject(`You're doing it wrong!\nServer responded with status ${err.statusCode === 404 ? err.statusCode + ' not found!' : err.statusCode}\n\n`));
 
     });
 }

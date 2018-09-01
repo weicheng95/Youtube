@@ -1,7 +1,6 @@
 const express = require('express')
 const app = express()
 const cheerio = require('cheerio');
-const axios = require('axios')
 const fs = require('fs');
 const lyrics = require('./lyrics')
 const bodyParser = require('body-parser');
@@ -32,9 +31,24 @@ app.post('/getlyrics', function(req, res) {
     var title = req.body.title
     var author = req.body.author
 
-    // lyrics.getLyricsLink(title, author)
-    // .then((link) => {
-    //     lyrics.getLyrics(link)
+    //
+    lyrics.getLyricsLink(title, author)
+    .then((link) => {
+        lyrics.getLyrics(link)
+        .then((lyric) => {
+            return res.send(lyric)
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+    })
+    .catch((err) => {
+        console.log(err)
+        return res.send('false')
+    })
+
+    // var link = 'https://www.azlyrics.com/lyrics/alanwalker/faded.html'
+    // lyrics.getLyrics(link)
     //     .then((lyric) => {
     //         return res.send(lyric)
     //         res.end()
@@ -42,20 +56,6 @@ app.post('/getlyrics', function(req, res) {
     //     .catch((err) => {
     //         console.log(err)
     //     })
-    // })
-    // .catch((err) => {
-    //     console.log(err)
-    //     return res.send('false')
-    // })
-    var link = 'https://www.azlyrics.com/lyrics/alanwalker/faded.html'
-    lyrics.getLyrics(link)
-        .then((lyric) => {
-            return res.send(lyric)
-            res.end()
-        })
-        .catch((err) => {
-            console.log(err)
-        })
 })
 
 app.listen(process.env.PORT || 3000, function () {
