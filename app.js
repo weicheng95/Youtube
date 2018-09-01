@@ -31,33 +31,33 @@ app.post('/getlyrics', function(req, res, next) {
     var title = req.body.title
     var author = req.body.author
 
-    //
-    lyrics.getLyricsLink(title, author)
-    .then((link) => {
-        lyrics.getLyrics(link)
-        .then((lyric) => {
-            return res.send(lyric)
-        })
-        .catch((err) => {
-            console.log(err)
-        })
-    })
-    .catch((err) => {
-        console.log(err)
-        return res.send('false')
-    })
-
-    next()
-
-    // var link = 'https://www.azlyrics.com/lyrics/alanwalker/faded.html'
-    // lyrics.getLyrics(link)
+    // lyrics.getLyricsLink(title, author)
+    // .then((link) => {
+    //     lyrics.getLyrics(link)
     //     .then((lyric) => {
     //         return res.send(lyric)
-    //         res.end()
     //     })
     //     .catch((err) => {
     //         console.log(err)
     //     })
+    // })
+    // .catch((err) => {
+    //     console.log(err)
+    //     return res.send('false')
+    // })
+    //next()
+
+    var link = 'https://www.azlyrics.com/lyrics/alanwalker/faded.html'
+    lyrics.getLyrics(link)
+        .then((lyric) => {
+            return res.send(lyric)
+            res.end()
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+
+        next()
 })
 
 app.listen(process.env.PORT || 3000, function () {
