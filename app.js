@@ -27,7 +27,7 @@ app.get('/', function (req, res) {
     res.render('index')
 })
 
-app.post('/getlyrics', function(req, res) {
+app.post('/getlyrics', function(req, res, next) {
     var title = req.body.title
     var author = req.body.author
 
@@ -46,6 +46,8 @@ app.post('/getlyrics', function(req, res) {
         console.log(err)
         return res.send('false')
     })
+
+    next()
 
     // var link = 'https://www.azlyrics.com/lyrics/alanwalker/faded.html'
     // lyrics.getLyrics(link)
