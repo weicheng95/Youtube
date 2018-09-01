@@ -48,16 +48,34 @@ app.post('/getlyrics', function(req, res, next) {
     //next()
 
     var link = 'https://www.azlyrics.com/lyrics/alanwalker/faded.html'
-    lyrics.getLyrics(link)
-        .then((lyric) => {
-            return res.send(lyric)
-            res.end()
-        })
-        .catch((err) => {
-            console.log(err)
-        })
+    // lyrics.getLyrics(link)
+    //     .then((lyric) => {
+    //         return res.send(lyric)
+    //         res.end()
+    //     })
+    //     .catch((err) => {
+    //         console.log(err)
+    //     })
 
-        next()
+    //     next()
+
+    lyrics.getLyricsLink(title, author)
+    .then((link) => {
+        return res.send(link)
+        //lyrics.getLyrics(link)
+        // .then((lyric) => {
+        //     return res.send(lyric)
+        // })
+        // .catch((err) => {
+        //     console.log(err)
+        // })
+    })
+    .catch((err) => {
+        console.log(err)
+        return res.send('false')
+    })
+    next()
+
 })
 
 app.listen(process.env.PORT || 3000, function () {
