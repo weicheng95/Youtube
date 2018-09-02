@@ -46,22 +46,24 @@ const getLyricLink = (URI) => {
 }
 
 const getLyric = (link) => {
-    try {
-        return axios.get(link)
-            .then((res, req) => {
-                console.log(res)
-                console.log('links:' +link)
-                return true
-                // if (res.status === 200) {
-                //     const $ = cheerio.load(res.data)
-                //     console.log('getlyrics')
-                //     return $('.col-xs-12.col-lg-8.text-center').first().html().split('Submit Corrections')[0]
-                // }
-            })
-            .catch(err => console.log(err))
-    } catch (error) {
-        console.error(error)
-    }
+    // try {
+    //     return axios.get(link)
+    //         .then(res => {
+    //             console.log('links:' +link)
+    //             if (res.status === 200) {
+    //                 const $ = cheerio.load(res.data)
+    //                 console.log('getlyrics')
+    //                 return $('.col-xs-12.col-lg-8.text-center').first().html().split('Submit Corrections')[0]
+    //             }
+    //         })
+    //         .catch(err => console.log(err))
+    // } catch (error) {
+    //     console.error(error)
+    // }
+
+    return axios.get(link).then(res => {
+        return true
+    })
 }
 
 const extractTextFromLyricLink = (URI) => {
