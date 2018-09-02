@@ -5,7 +5,7 @@ const lyricsBase = 'https://azlyrics.com/';
 const h2p = require('html2plaintext')
 
 const transformLink = data => {
-    data = data.split(' ', ).join('+');
+    data = data.split(' ').join('+');
     data = data.toLowerCase();
     return data;
 }
@@ -15,7 +15,6 @@ const lyricsUrl = (title, author) => {
     author = transformLink(author);
     title = transformLink(title);
     //search.php?q=the+chainsmokers+something+just+like+this
-    //returnUrl += `lyrics/${author}/${title}.html`;
     console.log({
         title
     })
@@ -103,7 +102,7 @@ exports.getLyrics = (link) => {
         .then((ly) => {
             resolve(ly)
         })
-        .catch(err => reject(`You're doing it wrong!\nServer responded with status ${err.statusCode === 404 ? err.statusCode + ' not found!' : err.statusCode}\n\n`));
+        .catch(err => reject(`You're doing it wrong!\nServer responded with status ${err.statusCode === 404 ? err.statusCode + ' not found!' : err.statusCode}\n\nFormat: Artist - Song.\nAdditional hyphens in the title should be omitted`));
 
     });
 }
