@@ -48,13 +48,15 @@ const getLyricLink = (URI) => {
 const getLyric = (link) => {
     try {
         return axios.get(link)
-            .then(res => {
+            .then((res, req) => {
+                console.log(res)
                 console.log('links:' +link)
-                if (res.status === 200) {
-                    const $ = cheerio.load(res.data)
-                    console.log('getlyrics')
-                    return $('.col-xs-12.col-lg-8.text-center').first().html().split('Submit Corrections')[0]
-                }
+                return true
+                // if (res.status === 200) {
+                //     const $ = cheerio.load(res.data)
+                //     console.log('getlyrics')
+                //     return $('.col-xs-12.col-lg-8.text-center').first().html().split('Submit Corrections')[0]
+                // }
             })
             .catch(err => console.log(err))
     } catch (error) {
@@ -80,18 +82,18 @@ const extractTextFromLyricLink = (URI) => {
     }
 }
 
-exports.getLyricsLink = (title, author) => {
-    return new Promise((resolve, reject) => {
-        const URI = lyricsUrl(title, author);
+// exports.getLyricsLink = (title, author) => {
+//     return new Promise((resolve, reject) => {
+//         const URI = lyricsUrl(title, author);
 
-        const lyricLink = getLyricLink(URI)
-            .then((link) => {
-                resolve(link)
-            })
-            .catch(err => reject(`You're doing it wrong!\nServer responded with status ${err.statusCode === 404 ? err.statusCode + ' not found!' : err.statusCode}\n\nFormat: Artist - Song.\nAdditional hyphens in the title should be omitted`));
+//         const lyricLink = getLyricLink(URI)
+//             .then((link) => {
+//                 resolve(link)
+//             })
+//             .catch(err => reject(`You're doing it wrong!\nServer responded with status ${err.statusCode === 404 ? err.statusCode + ' not found!' : err.statusCode}\n\nFormat: Artist - Song.\nAdditional hyphens in the title should be omitted`));
 
-    });
-}
+//     });
+// }
 
 exports.getLyrics = (link) => {
     return new Promise((resolve, reject) => {
