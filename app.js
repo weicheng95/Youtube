@@ -50,7 +50,6 @@ app.post('/getlyrics', function(req, res, next) {
     lyrics.getLyrics(link)
         .then((lyric) => {
             return res.send(lyric)
-            res.end()
         })
         .catch((err) => {
             console.log(err)
