@@ -45,8 +45,8 @@ app.post('/getlyrics', function(req, res, next) {
     //     console.log(err)
     //     return res.send('false')
     // })
-    var link = 'https://genius.com/Ed-sheeran-perfect-lyrics'
-    //var link = 'https://www.azlyrics.com/lyrics/alanwalker/faded.html'
+    
+    var link = 'https://www.azlyrics.com/lyrics/alanwalker/faded.html'
     lyrics.getLyrics(link)
         .then((lyric) => {
             return res.send(lyric)

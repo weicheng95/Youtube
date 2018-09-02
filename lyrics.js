@@ -1,8 +1,8 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
 const searchLyricsBase = 'https://search.azlyrics.com/search.php';
-const lyricsBase = 'https://azlyrics.com/';
 const h2p = require('html2plaintext')
+var request = require('request-promise');
 
 const transformLink = data => {
     data = data.split(' ').join('+');
@@ -62,9 +62,9 @@ const getLyric = (link) => {
     // }
 
     return axios.get(link).then(res => {
-        return true
-    })
-    .catch(err => console.log(err))
+            return true
+        })
+        .catch(err => console.log(err))
 }
 
 const extractTextFromLyricLink = (URI) => {
@@ -85,26 +85,63 @@ const extractTextFromLyricLink = (URI) => {
     }
 }
 
-// exports.getLyricsLink = (title, author) => {
-//     return new Promise((resolve, reject) => {
-//         const URI = lyricsUrl(title, author);
+const getlyrictest = (link) => {
 
-//         const lyricLink = getLyricLink(URI)
-//             .then((link) => {
-//                 resolve(link)
-//             })
-//             .catch(err => reject(`You're doing it wrong!\nServer responded with status ${err.statusCode === 404 ? err.statusCode + ' not found!' : err.statusCode}\n\nFormat: Artist - Song.\nAdditional hyphens in the title should be omitted`));
+    var options = {
+        uri: link,
+        transform: function (body) {
+            return cheerio.load(body);
+        }
+    };
+    
+    request(options)
+        .then(function ($) {
+            return $('.col-xs-12.col-lg-8.text-center').first().html().split('Submit Corrections')[0]
+        })
+        .catch(function (err) {
+            // Crawling failed or Cheerio choked...
+        });
+}
+exports.getLyricsLink = (title, author) => {
+    return new Promise((resolve, reject) => {
+        const URI = lyricsUrl(title, author);
 
-//     });
-// }
+        const lyricLink = getLyricLink(URI)
+            .then((link) => {
+                resolve(link)
+            })
+            .catch(err => reject(`You're doing it wrong!\nServer responded with status ${err.statusCode === 404 ? err.statusCode + ' not found!' : err.statusCode}\n\nFormat: Artist - Song.\nAdditional hyphens in the title should be omitted`));
+
+    });
+}
 
 exports.getLyrics = (link) => {
     return new Promise((resolve, reject) => {
         console.log({
             link
         })
-        const lyricLink = getLyric(link)
-        .then((ly) => {
+        // const lyricLink = getLyric(link)
+        // .then((ly) => {
+        //     resolve(ly)
+        // })
+        // .catch(err => reject(`You're doing it wrong!\nServer responded with status ${err.statusCode === 404 ? err.statusCode + ' not found!' : err.statusCode}\n\nFormat: Artist - Song.\nAdditional hyphens in the title should be omitted`));
+        // getlyrictest(link)
+        // .then(ly => {
+        //     resolve(ly)
+        // })
+        // .catch(err => reject(`You're doing it wrong!\nServer responded with status ${err.statusCode === 404 ? err.statusCode + ' not found!' : err.statusCode}\n\nFormat: Artist - Song.\nAdditional hyphens in the title should be omitted`));
+    
+
+        var options = {
+            uri: link,
+            transform: function (body) {
+                return cheerio.load(body);
+            }
+        };
+
+        request(options)
+        .then(function ($) {
+            var ly = $('.col-xs-12.col-lg-8.text-center').first().html().split('Submit Corrections')[0]
             resolve(ly)
         })
         .catch(err => reject(`You're doing it wrong!\nServer responded with status ${err.statusCode === 404 ? err.statusCode + ' not found!' : err.statusCode}\n\nFormat: Artist - Song.\nAdditional hyphens in the title should be omitted`));
