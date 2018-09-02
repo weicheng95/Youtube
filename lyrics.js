@@ -64,6 +64,7 @@ const getLyric = (link) => {
     return axios.get(link).then(res => {
         return true
     })
+    .catch(err => console.log(err))
 }
 
 const extractTextFromLyricLink = (URI) => {

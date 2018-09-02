@@ -7,8 +7,8 @@ const bodyParser = require('body-parser');
 const timeout = require('connect-timeout')
 
 //setting
-app.use(timeout('10s'))
-app.use(haltOnTimedout)
+// app.use(timeout('10s'))
+// app.use(haltOnTimedout)
 app.use(bodyParser())
 
 function haltOnTimedout (req, res, next) {
