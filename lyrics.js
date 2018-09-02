@@ -1,6 +1,7 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
-const searchLyricsBase = 'https://search.azlyrics.com/search.php';
+const searchLyricsBase = 'https://www.musixmatch.com/search/';
+const lyricsBase = 'https://www.musixmatch.com'
 const h2p = require('html2plaintext')
 var request = require('request-promise');
 
@@ -22,7 +23,7 @@ const lyricsUrl = (title, author) => {
         author
     })
     //returnUrl += `?q=${author}+${title}`;
-    returnUrl += `?q=${title}`;
+    returnUrl += `${title}`;
     console.log({
         returnUrl
     })
@@ -36,7 +37,8 @@ const getLyricLink = (URI) => {
                 if (res.status === 200) {
                     const $ = cheerio.load(res.data)
                     console.log('getlyriclink')
-                    return $('td.text-left a').first().attr('href')
+                    //return $('td.text-left a').first().attr('href')
+                    return $('#search-all-results .showArtist.showCoverart .title').first().attr('href')
                 }
             })
             .catch(err => console.log(err))
@@ -85,6 +87,7 @@ const extractTextFromLyricLink = (URI) => {
     }
 }
 
+//for testing purpose
 const getlyrictest = (link) => {
 
     var options = {
@@ -102,13 +105,15 @@ const getlyrictest = (link) => {
             // Crawling failed or Cheerio choked...
         });
 }
+
 exports.getLyricsLink = (title, author) => {
     return new Promise((resolve, reject) => {
         const URI = lyricsUrl(title, author);
 
         const lyricLink = getLyricLink(URI)
             .then((link) => {
-                resolve(link)
+                var lyLink = lyricsBase + link
+                resolve(lyLink)
             })
             .catch(err => reject(`You're doing it wrong!\nServer responded with status ${err.statusCode === 404 ? err.statusCode + ' not found!' : err.statusCode}\n\nFormat: Artist - Song.\nAdditional hyphens in the title should be omitted`));
 
@@ -120,17 +125,6 @@ exports.getLyrics = (link) => {
         console.log({
             link
         })
-        // const lyricLink = getLyric(link)
-        // .then((ly) => {
-        //     resolve(ly)
-        // })
-        // .catch(err => reject(`You're doing it wrong!\nServer responded with status ${err.statusCode === 404 ? err.statusCode + ' not found!' : err.statusCode}\n\nFormat: Artist - Song.\nAdditional hyphens in the title should be omitted`));
-        // getlyrictest(link)
-        // .then(ly => {
-        //     resolve(ly)
-        // })
-        // .catch(err => reject(`You're doing it wrong!\nServer responded with status ${err.statusCode === 404 ? err.statusCode + ' not found!' : err.statusCode}\n\nFormat: Artist - Song.\nAdditional hyphens in the title should be omitted`));
-    
 
         var options = {
             uri: link,
@@ -141,7 +135,13 @@ exports.getLyrics = (link) => {
 
         request(options)
         .then(function ($) {
-            var ly = $('.col-xs-12.col-lg-8.text-center').first().html().split('Submit Corrections')[0]
+            //first part lyric
+            var ly1 = $('.mxm-lyrics__content').html()
+
+            var ly2 = $('.mxm-lyrics span div p.mxm-lyrics__content ').html()
+
+            var ly = ly1 + '<br />' + ly2
+
             resolve(ly)
         })
         .catch(err => reject(`You're doing it wrong!\nServer responded with status ${err.statusCode === 404 ? err.statusCode + ' not found!' : err.statusCode}\n\nFormat: Artist - Song.\nAdditional hyphens in the title should be omitted`));
